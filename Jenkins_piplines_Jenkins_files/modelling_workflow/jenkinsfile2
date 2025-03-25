@@ -1,0 +1,41 @@
+pipeline{
+    agent any
+    environment{
+        RELEASE="24.02"
+    }
+    stages{
+        stage('Build'){
+            agent any
+            environment{
+                LOG_LEVEL="INFO"
+            }
+            steps{
+                echo "Building release ${RELEASE} with log level ${LOG_LEVEL}"
+            }
+        }
+
+        stage('Test'){
+            steps{
+                echo "Testing release ${RELEASE}..."
+            }
+        }
+
+        stage('Deploy'){
+            input{
+                message 'Deploy?'
+                ok 'Do it!'
+                parameters {
+                    string(name: 'TRGET_ENVIRONMENT', defaultValue: 'PROD', description: 'Target development environment')
+                }
+            }
+            steps{
+                echo "Deploying release ${RELEASE} to environment ${TRGET_ENVIRONMENT}"
+            }
+        }
+    }
+    post{
+        always{
+            echo "Prints Whether deploy happend or not, success or failure "
+        }
+    }
+}
