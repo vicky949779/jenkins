@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         // Define environment variables here
-        MY_ENV_VAR = 'custem value'  
+        MY_ENV_VAR = 'custom value'  
     }
 
     stages {
@@ -45,7 +45,7 @@ pipeline {
         stage('Deploy') {  
             steps {
                 // Deploy your application to a target environment (e.g., staging, production)
-                sh 'echo"Value of ENV Variable is "$MY_ENV_VAR""'  
+                sh 'echo "Value of ENV Variable is "$MY_ENV_VAR""'  
             }
         }
     }  
