@@ -1,3 +1,4 @@
+// how we can implement the stage to be manually approved before it will exicute. 
 pipeline{
     agent any
     environment{
@@ -21,7 +22,7 @@ pipeline{
         }
 
         stage('Deploy'){
-            input{
+            input{ // This will use for jenkins wait for confirmation until give the admin parameter value.
                 message 'Deploy?'
                 ok 'Do it!'
                 parameters {
@@ -34,7 +35,7 @@ pipeline{
         }
     }
     post{
-        always{
+        always{ // It has condition,This will print success or fail.
             echo "Prints Whether deploy happend or not, success or failure "
         }
     }
