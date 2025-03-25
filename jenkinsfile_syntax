@@ -1,0 +1,50 @@
+// Jenkins file Sample Syntax for Understanding
+pipeline {
+    agent any
+
+    environment {
+        // Define environment variables here
+        MY_ENV_VAR = 'some_value'  
+    }
+
+    stages {
+        stage('Checkout') {  
+            steps {
+                // Checkout your source code from your version control system (e.g., Git)
+                checkout scm  
+            }
+        }
+
+        stage('Build') {  
+            steps {
+                // Build your application here (e.g., compile, package, etc.)
+                sh 'your_build_command'  
+            }
+        }
+
+        stage('Test') {  
+            steps {
+                // Run your tests (e.g., unit tests, integration tests)
+                sh 'your_test_command'  
+            }
+        }
+
+        stage('Deploy') {  
+            steps {
+                // Deploy your application to a target environment (e.g., staging, production)
+                sh 'your_deploy_command'  
+            }
+        }
+    }  
+
+    post { 
+        success {
+            // Actions to perform when the pipeline succeeds
+            echo 'Pipeline succeeded!'  
+        }
+        failure {
+            // Actions to perform when the pipeline fails
+            echo 'Pipeline failed!'  
+        }
+    }
+}

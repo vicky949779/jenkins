@@ -1,0 +1,63 @@
+// Jenkins file Sample Syntax for Understanding
+pipeline {
+    agent any
+
+    environment {
+        // Define environment variables here
+        MY_ENV_VAR = 'custem value'  
+    }
+
+    stages {
+        stage('Checkout') {  
+            steps {
+                // Checkout your source code from your version control system (e.g., Git)
+                script {
+                    // Define Git repository URL
+                    def gitRepoUrl = 'https://github.com/vicky949779/jenkins.git'
+
+                    // Checkout the Git repository
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: '**/main']],
+                        userRemoteConfigs: [[url: gitRepoUrl]],
+                        extensions: [[$class: 'CleanBeforeCheckout'], [$class: 'CloneOption', noTags: false, shallow: true, depth: 1]]    
+                    ])
+                }
+            }
+        }
+
+        stage('Build') {  
+            steps {
+                // Build your application here (e.g., compile, package, etc.)
+                sh """
+                ls
+                echo "In build step"
+                """ 
+            }
+        }
+
+        stage('Test') {  
+            steps {
+                // Run your tests (e.g., unit tests, integration tests)
+                sh 'echo "In test step"'  
+            }
+        }
+
+        stage('Deploy') {  
+            steps {
+                // Deploy your application to a target environment (e.g., staging, production)
+                sh 'echo"Value of ENV Variable is "$MY_ENV_VAR""'  
+            }
+        }
+    }  
+
+    post { 
+        success {
+            // Actions to perform when the pipeline succeeds
+            echo 'Pipeline succeeded!'  
+        }
+        failure {
+            // Actions to perform when the pipeline fails
+            echo 'Pipeline failed!'  
+        }
+    }
+}
