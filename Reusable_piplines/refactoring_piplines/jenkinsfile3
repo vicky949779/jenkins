@@ -50,4 +50,10 @@ pipeline {
             }
         }
     }
+
+    post{
+        always{
+            cleanWs() //This will clear the workspace after the run jenkins but only seen archiveArtifacts
+        }
+    }
 }
