@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    parameters {
+        booleanParam(name: 'VISIBLE', defaultValue: false, description: 'Is this visible?')
+    }
+    environment {
+        RELEASE = "python script"
+        NAME = "Vigneshkumar"           
+        LASTNAME = "S"        
+        AGE = "24"              
+        LOG_LEVEL = "vicky"      
+    }
+    stages {
+        stage('Tools') {
+            steps {
+                echo "Building my ${RELEASE}..."
+                sh 'python3 --version'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    def visible_bool = params.VISIBLE ? "true" : "false"
+
+                    if (visible_bool == "true") {
+                        echo "VISIBLE parameter value: ${visible_bool}"
+                    } else {
+                        echo "Please pass the visible true!!! The value is: ${visible_bool}"
+                    }
+                }
+                dir('./demo') {
+                    sh """
+                    python3 test1script.py "${NAME}" "${LASTNAME}" "${AGE}" "${params.VISIBLE}"
+                    """
+                }
+            }
+        }
+
+        stage('Publish') {
+            when {
+                expression { return params.VISIBLE }  // Runs only if VISIBLE is true
+            }
+            steps {
+                script {
+                    sh 'mkdir -p output && echo "Pipeline executed successfully" > output/log.txt'
+                    sh 'zip -r output.zip output/'  // Creating a ZIP file
+                }
+                archiveArtifacts artifacts: 'output.zip'  // Store artifacts in Jenkins
+            }
+        }
+    }
+}
