@@ -31,9 +31,9 @@ pipeline{
             steps{
                 echo " Building to ${RELEASE} is ${LOG_LEVEL}"
                 dir('./demo'){
-                    sh '''
-                    ls 
-                    '''
+                    sh """
+                    python3 test1script.py "${NAME}" "${LASTNAME}" "${AGE}" "${VISIBLE}"
+                    """
                 }
             }
         }
