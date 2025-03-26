@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+    environment {
+        RELEASE = "python script"
+        NAME = "John"           // Replace with actual name
+        LASTNAME = "Doe"        // Replace with actual last name
+        AGE = "30"              // Replace with actual age
+        VISIBLE = "true"        // Set visibility
+        LOG_LEVEL = "vicky"      // Defined globally for usage in all stages
+    }
+    
+    stages {
+        stage('Build') {
+            agent any
+            steps {
+                echo "Building to my ${RELEASE}..."
+                sh '''
+                python --version 
+                '''
+            }
+        }
+        
+        stage('Run Python Script') {
+            agent any
+            steps {
+                script {
+                    def output = sh(script: "python3 demo/test1script.py ${NAME} ${LASTNAME} ${AGE} ${VISIBLE}", returnStdout: true).trim()
+                    echo "Python script output: ${output}"
+                }
+            }
+        }
+        
+        stage('Test') {
+            agent any
+            steps {
+                echo "Testing, I can check my ${RELEASE}, and my name is ${LOG_LEVEL}"
+            }
+        }
+    }
+}
