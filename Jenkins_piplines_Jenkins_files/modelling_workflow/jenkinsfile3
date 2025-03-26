@@ -13,7 +13,7 @@ pipeline{
                 stage('Linux-arm64'){
                     agent any // Why i give this ? this only have the Linux-arm64 stage of agent
                     steps{
-                        echo "Building release ${RELEASE} for ${STAGE_NAME} with log level ${LOG_LEVEL}..."
+                        echo "Building release ${RELEASE} for ${STAGE_NAME} with log level ${LOG_LEVEL}..." //${STAGE_NAME} this is mention stage name example :${Linux-arm64}
                     }
                     
                 }
@@ -58,3 +58,14 @@ pipeline{
         }
     }
 }
+// ### Role of agent any in Parallel Stages ###
+// 1. Assigns an Available Agent → agent any tells Jenkins to pick any available worker (agent) to run that stage.
+
+// 2. Parallel Execution → Since the stages are inside parallel {}, each stage can run at the same time on different agents (if multiple agents are available).
+
+// 3. Independent Execution → Each stage gets its own environment and workspace, meaning they run separately.
+
+// 4. If Only One Agent is Available → The stages will wait for execution one after another instead of running in parallel.
+
+// ~ Key Point:
+//      If you want all stages to share the same agent, define agent any at the pipeline level instead of inside each stage.
