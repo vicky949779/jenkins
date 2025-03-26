@@ -39,7 +39,7 @@ pipeline {
 
         stage('Publish') {
             when {
-                expression { return params.VISIBLE }  // Runs only if VISIBLE is true
+                expression { return params.VISIBLE }  // Runs only if VISIBLE is true, otherwise false skip this 
             }
             steps {
                 script {
