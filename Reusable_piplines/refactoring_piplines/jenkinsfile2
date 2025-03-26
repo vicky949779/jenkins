@@ -1,0 +1,41 @@
+pipeline{
+    agent any
+    environment{
+        RELEASE = "python script"
+        NAME = "Vigneshkumar"           
+        LASTNAME = "S"        
+        AGE = "24"              
+        VISIBLE = "true"        
+        LOG_LEVEL = "vicky"      
+    }
+    stages{
+        stage('Tools'){
+            agent any
+            steps{
+                echo "Building to my ${RELEASE}..."
+                sh '''
+                python3 --version 
+                '''
+            }
+        }
+
+        stage('Just Test'){
+            agent any
+            steps{
+                echo "Just we printing..."
+            }
+        }
+
+        stage('Build'){
+            agent any
+            steps{
+                echo " Building to ${RELEASE} is ${LOG_LEVEL}"
+                dir('./demo'){
+                    sh '''
+                    ls 
+                    '''
+                }
+            }
+        }
+    }
+}
