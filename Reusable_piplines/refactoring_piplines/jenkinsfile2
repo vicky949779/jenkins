@@ -30,10 +30,10 @@ pipeline{
             agent any
             steps{
                 echo " Building to ${RELEASE} is ${LOG_LEVEL}"
-                dir('./demo'){
+                dir('./demo'){ //It changes the working directory inside the Jenkins pipeline.
                     sh """
                     python3 test1script.py "${NAME}" "${LASTNAME}" "${AGE}" "${VISIBLE}"
-                    """
+                    """ // I pass the parameter values via 'sh' and that Fails because triple single quotes (''') treat variables as plain text (no expansion). 
                 }
             }
         }
