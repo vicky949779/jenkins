@@ -1,0 +1,60 @@
+// We can exicute the multiple Build stages in parallel
+pipeline{
+    agent any
+    environment{
+        RELEASE="24.02"
+    }
+    stages{
+        stage('Build'){
+            environment{
+                LOG_LEVEL="INFO"
+            }
+            parallel{
+                stage('Linux-arm64'){
+                    agent any
+                    steps{
+                        echo "Building release ${RELEASE} for ${STAGE_NAME} with log level ${LOG_LEVEL}..."
+                    }
+                    
+                }
+                stage('Linux-amd64'){
+                    agent any
+                    steps{
+                        echo "Building release ${RELEASE} for ${STAGE_NAME} with log level ${LOG_LEVEL}..."
+                    }
+
+                }
+                stage('Windows-amd64'){
+                    agent any
+                    steps{
+                        echo "Building release ${RELEASE} for ${STAGE_NAME} with log level ${LOG_LEVEL}..."
+                    }
+                }
+            }
+        }
+
+        stage('Test'){
+            steps{
+                echo "Testing release ${RELEASE}..."
+            }
+        }
+
+        stage('Deploy'){
+            input{
+                message 'Deploy?'
+                ok 'Do it!'
+                parameters{
+                    string(name: 'TRGET_ENVIRONMENT', defaultValue: 'PROD', description: 'Target development environment')
+                }
+            }
+            steps{
+                echo "Deploying release ${RELEASE} to environment ${TRGET_ENVIRONMENT}"
+            }
+        }
+    }
+    post{
+        always{
+            echo "Prints Whether deploy happend or not, success or failure "
+        }
+    }
+}
