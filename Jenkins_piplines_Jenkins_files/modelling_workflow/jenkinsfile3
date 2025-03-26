@@ -9,9 +9,9 @@ pipeline{
             environment{
                 LOG_LEVEL="INFO"
             }
-            parallel{
+            parallel{ //using to exicute at parallel this inside of stages 
                 stage('Linux-arm64'){
-                    agent any
+                    agent any // Why i give this ? this only have the Linux-arm64 stage of agent
                     steps{
                         echo "Building release ${RELEASE} for ${STAGE_NAME} with log level ${LOG_LEVEL}..."
                     }
