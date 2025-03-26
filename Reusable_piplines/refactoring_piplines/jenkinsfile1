@@ -2,9 +2,9 @@ pipeline {
     agent any
     environment {
         RELEASE = "python script"
-        NAME = "John"           // Replace with actual name
-        LASTNAME = "Doe"        // Replace with actual last name
-        AGE = "30"              // Replace with actual age
+        NAME = "Vigneshkumar"           // Replace with actual name
+        LASTNAME = "S"        // Replace with actual last name
+        AGE = "24"              // Replace with actual age
         VISIBLE = "true"        // Set visibility
         LOG_LEVEL = "vicky"      // Defined globally for usage in all stages
     }
