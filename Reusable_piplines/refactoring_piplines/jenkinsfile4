@@ -57,7 +57,7 @@ pipeline {
 }
 
 // ✅ Function to check visibility parameter
-def pass_para() {
+String pass_para() {
     def visible_bool = params.VISIBLE ? "true" : "false"
 
     if (visible_bool == "true") {
