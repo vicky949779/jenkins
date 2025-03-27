@@ -31,6 +31,7 @@ pipeline {
                 }
                 dir('./demo') {
                     sh """
+                    mkdir -p output
                     python3 test1script.py "${NAME}" "${LASTNAME}" "${AGE}" "${params.VISIBLE}" > output/log.txt
                     """
                 }
@@ -43,7 +44,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'mkdir -p output && echo "Pipeline executed successfully" > output/log.txt'
+                    // sh 'mkdir -p output && echo "Pipeline executed successfully" > output/log.txt'
+                    sh 'echo "Pipeline executed successfully" > output/log.txt'
                     sh 'zip -r output.zip output/'  // Creating a ZIP file
                 }
                 archiveArtifacts artifacts: 'output.zip'  // Store artifacts in Jenkins
