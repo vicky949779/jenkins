@@ -1,0 +1,13 @@
+library identifier: 'Jenkins_Pipeline_shared_Libs@main',
+                retriever: modernSCM([$class: 'GitSCMSource', remote: 'https://github.com/vicky949779/Jenkins_Pipeline_shared_Libs.git'])
+
+pipeline{
+    agent any
+    stages{
+        stage('Audit tools'){
+            steps{
+                auditTools()
+            }
+        }
+    }
+}
