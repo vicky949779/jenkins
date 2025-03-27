@@ -31,7 +31,7 @@ pipeline {
                 }
                 dir('./demo') {
                     sh """
-                    python3 test1script.py "${NAME}" "${LASTNAME}" "${AGE}" "${params.VISIBLE}"
+                    python3 test1script.py "${NAME}" "${LASTNAME}" "${AGE}" "${params.VISIBLE}" > output/log.txt
                     """
                 }
             }
