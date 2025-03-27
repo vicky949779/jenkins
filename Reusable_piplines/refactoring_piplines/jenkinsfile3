@@ -35,27 +35,29 @@ pipeline {
                     python3 test1script.py "${NAME}" "${LASTNAME}" "${AGE}" "${params.VISIBLE}" > output/log.txt
                     """
                 }
+                // Archive the log file
+                archiveArtifacts artifacts: 'demo/output/log.txt'
             }
         }
 
         stage('Publish') {
             when {
-                expression { return params.VISIBLE }  // Runs only if VISIBLE is true, otherwise false skip this 
+                expression { return params.VISIBLE }  // Runs only if VISIBLE is true
             }
             steps {
                 script {
-                    // sh 'mkdir -p output && echo "Pipeline executed successfully" > output/log.txt'
-                    // sh 'echo "Pipeline executed successfully" > output/log.txt'
-                    sh 'zip -r output.zip output/'  // Creating a ZIP file
+                    // Navigate inside the demo directory and zip only the output/ directory
+                    sh 'cd demo && zip -r output.zip output'
                 }
-                archiveArtifacts artifacts: 'output.zip'  // Store artifacts in Jenkins
+                // ✅ Move archiveArtifacts outside script block  // Ensure the zip file is archived from the correct location
+                archiveArtifacts artifacts: 'demo/output.zip'
             }
         }
     }
 
-    post{
-        always{
-            cleanWs() //This will clear the workspace after the run jenkins but only seen archiveArtifacts
+    post {
+        always {
+            cleanWs() // This will clear the workspace after the Jenkins run but will retain archived artifacts
         }
     }
 }
