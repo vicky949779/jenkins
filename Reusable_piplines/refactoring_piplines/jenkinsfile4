@@ -1,3 +1,5 @@
+// Work with fuction to reusable and readable 
+
 pipeline {
     agent any
     parameters {
