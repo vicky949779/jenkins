@@ -20,10 +20,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                pass_para()
-                
+                script {
+                    echo pass_para()
+                }
+
                 dir('./demo') {
-                    run_script()
+                    script {
+                        run_script()
+                    }          
                 }
                 // Archive the log file
                 archiveArtifacts artifacts: 'demo/output/log.txt'
@@ -35,11 +39,11 @@ pipeline {
                 expression { return params.VISIBLE }  // Runs only if VISIBLE is true
             }
             steps {
-                script {
-                    // Navigate inside the demo directory and zip only the output/ directory
-                    sh 'cd demo && zip -r output.zip output'
+                 // ✅ Move archiveArtifacts outside script block  // Ensure the zip file is archived from the correct location
+                dir('./demo') {
+                    sh 'zip -r output.zip output'
                 }
-                // ✅ Move archiveArtifacts outside script block  // Ensure the zip file is archived from the correct location
+                // ✅ Ensure the zip file is archived from the correct location
                 archiveArtifacts artifacts: 'demo/output.zip'
             }
         }
@@ -52,23 +56,21 @@ pipeline {
     }
 }
 
-
-String pass_para(){
-    script{
-        def visible_bool = params.VISIBLE ? "true" : "false"
+// ✅ Function to check visibility parameter
+def pass_para() {
+    def visible_bool = params.VISIBLE ? "true" : "false"
 
     if (visible_bool == "true") {
         return "VISIBLE parameter value: ${visible_bool}"
     } else {
         return "Please pass the visible true!!! The value is: ${visible_bool}"
     }
-    }
 }
 
-void run_script(){
-     sh """
+// ✅ Function to run the script
+void run_script() {
+    sh """
     mkdir -p output
     python3 test1script.py "${NAME}" "${LASTNAME}" "${AGE}" "${params.VISIBLE}" > output/log.txt
     """
 }
-
