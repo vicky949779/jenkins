@@ -44,8 +44,8 @@ pipeline {
             }
             steps {
                 script {
-                    // sh 'mkdir -p output && echo "Pipeline executed successfully" > output/log.txt'
-                    sh 'echo "Pipeline executed successfully" > output/log.txt'
+                    sh 'mkdir -p output && echo "Pipeline executed successfully" > output/log.txt'
+                    // sh 'echo "Pipeline executed successfully" > output/log.txt'
                     sh 'zip -r output.zip output/'  // Creating a ZIP file
                 }
                 archiveArtifacts artifacts: 'output.zip'  // Store artifacts in Jenkins
