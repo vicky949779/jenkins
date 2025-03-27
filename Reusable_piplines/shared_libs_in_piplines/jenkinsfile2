@@ -7,7 +7,7 @@ pipeline{
         stage('Audit tools'){
             steps{
                 auditTools2 message: 'This is demo 2 from job 2'
-                auditTools3 justTest: 'Yes this is working'
+                auditTools3 justTest: 'Yes this is working' //now i have two  shared lib are using , auditTools3 this after mention variable is you shared lib
             }
         }
     }
