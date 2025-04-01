@@ -1,6 +1,7 @@
 pipeline {
     agent {
         docker { image 'python:latest' }
+        args '--user root'
     }
     environment {
         RELEASE = "python script"
@@ -58,6 +59,8 @@ Requirements:
 
 4. Reboot the Machine:
    sudo reboot
+   sudo systemctl restart jenkins
+
 
 5. Ensure Docker Runs as Root:
    In Jenkins Pipeline:
