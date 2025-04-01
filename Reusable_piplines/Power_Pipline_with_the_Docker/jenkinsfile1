@@ -1,7 +1,9 @@
 pipeline {
     agent {
-        docker { image 'python:latest' }
-        args '--user root'
+        docker {
+            image 'python:latest'
+            args '--user root'
+        }
     }
     environment {
         RELEASE = "python script"
